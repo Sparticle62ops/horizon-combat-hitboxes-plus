@@ -1,0 +1,13 @@
+[package]
+name = "horizon-mod-combat-hitboxes-plus"
+version = "1.0.0"
+edition = "2024"
+license = "Apache-2.0"
+publish = false
+description = "Combat Hitboxes+: colored hitboxes for every mob and player in view. Exact 1:1 Rust port of Combat Hitboxes+ (TrueWulf, Apache-2.0)."
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+horizon-mod-api = { path = ".horizon/sdk/api/crates/horizon-mod-api" }

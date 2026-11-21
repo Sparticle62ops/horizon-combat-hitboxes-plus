@@ -1,33 +1,27 @@
-# combat-hitboxes-plus (Horizon port)
+# Horizon Combat Hitboxes+
 
-A Rust port of [Combat Hitboxes Plus](https://github.com/TrueWulf/combat-hitboxes-plus)
-(TrueWulf, Apache-2.0) for [Horizon](https://github.com/horizon-rust/horizon):
-colored hitboxes for every mob and player in view, drawn through walls.
+Exact 1:1 Rust translation of [Combat Hitboxes+](https://github.com/TrueWulf/combat-hitboxes-plus)
+(TrueWulf, Apache-2.0) for the Horizon client. Carries the upstream license
+and credit (see LICENSE).
 
-Ported 1:1 (the core):
+Combat Hitboxes+ draws colored hitboxes for every mob and player in view:
+the vanilla hitbox debug draw is cancelled and the mod renders its own boxes,
+with a different color for the entity you are looking at and can reach, a
+shield color while the entity blocks, separate colors for ender pearls by
+owner (yours, enemies', unknown), the eye-height slab, the vehicle seat box,
+the dragon's parts, and the look direction, plus the weapon filter (held
+weapon decides whether hitboxes render) and the stuck-arrow hide.
 
-- Hitbox outlines for mobs and players, per frame, from the client's own
-  entity sync (native_mob_submit / native_player_submit enumeration, then
-  EntityRef reads of the bounding box, eye height, eye position and view
-  vector).
-- Red inside the weapon's reach (3.0 blocks to the box's nearest point from
-  the camera), white outside, with the original's out-of-range dimming.
-- An eye-height line and a 2-block look-direction line per entity.
-- Line width falls with distance (base 2.0 to a 0.5 floor, red boxes a
-  little thicker) and drawing stops past the original's 72-block render
-  distance.
+Every Java class maps to one module: `config`, `weapon_filter`,
+`projectile_owner`, `hitbox_render` (the `HitBoxRenderMixin` logic),
+`stuck_arrow` (the `StuckArrowMixin`/`StuckStingerMixin` logic), `mod_menu`,
+`main`, over `seams` (the Minecraft client surfaces the engine binds).
 
-Not ported yet, and why (filed against Horizon where the API is the gap):
+The mod API wires the original's 60 config entries as settings with
+upstream's own lang keys as the labels and tooltips, and runs the original's
+entry (`Main.onInitializeClient()`) on client setup.
 
-- Dropped-item hitboxes: Horizon has no client enumeration of dropped items
-  outside WorldDrawn::motion (API 371); the next slice reads it.
-- Shield-block color: no client read of another entity's blocking state
-  (use-item hooks are server-side), so the shield color is unreachable.
-- Pearl / projectile owner colors: no client enumeration of projectiles, and
-  no client NBT read for the owner UUID.
-- The config file and the /combathitboxes command: the settings are
-  constants in runtime.rs for this slice; the config comes via
-  native_register_configs (API 397) next.
+Pinned to Horizon f00125f and horizon-mixins e59da909; exact 1:1 Rust port
+tested against those revisions.
 
-License: Apache-2.0 (see LICENSE). Upstream copyright TrueWulf and
-contributors.
+Source: https://github.com/Sparticle62ops/horizon-combat-hitboxes-plus

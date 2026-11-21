@@ -1,0 +1,41 @@
+id = "combat_hitboxes_plus"
+name = "Combat Hitboxes+"
+version = "1.0.0"
+description = """Exact 1:1 Rust translation of [Combat Hitboxes+](https://github.com/TrueWulf/combat-hitboxes-plus)
+(upstream Java, Apache-2.0) by TrueWulf. Carries the upstream license and credit.
+
+Ported for the Horizon client by sparticle.
+
+Colored hitboxes for every mob and player in view: the vanilla hitbox debug
+draw is cancelled and the mod draws its own, with a different color for the
+target you can reach, a shield color while it blocks, ender pearls colored by
+owner, the eye-height slab, the vehicle seat box, the dragon's parts, and the
+look direction. The weapon filter decides from the held weapon whether
+hitboxes render; the stuck-arrow hide zeroes the arrow and stinger counts.
+
+The package ships the full module tree (`config`, `weapon_filter`,
+`projectile_owner`, `hitbox_render`, `stuck_arrow`, `mod_menu`, `main`,
+`seams`), matching source revision on main. The mod API wires the original's
+60 config entries as settings (upstream's own lang keys as the labels and
+tooltips) and runs the original's entry (`Main.onInitializeClient()`) on
+client setup.
+
+Known seams (engine-stage; tracked):
+- the mod API has no surface to cancel an existing debug renderer's draw (the
+  vanilla hitbox draw) and no client read for the per-view entity set or the
+  local player's reads; the draw path runs on the seams until one lands.
+
+Pinned to Horizon f00125f and horizon-mixins e59da909; exact 1:1 Rust port tested against those revisions.
+
+Licence: Apache-2.0 (LICENSE carries the upstream text). Source: https://github.com/Sparticle62ops/horizon-combat-hitboxes-plus
+"""
+authors = ["TrueWulf", "sparticle"]
+license = "Apache-2.0"
+homepage = "https://github.com/Sparticle62ops/horizon-combat-hitboxes-plus"
+api = "0.2"
+side = "client"
+
+[native]
+game = "26.3"
+horizon = "f00125f61f794aaa3d4e950d301f353b35b6ee3d"
+mixins = "e59da9094f0c2fdda6c627fe9eff22dec6a906f0"
